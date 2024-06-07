@@ -4,7 +4,7 @@ S3 bucket and DDB table for managing terraform state.
 
 ```hcl
 module "state" {
-  source = "https://github.com/jakebark/state"
+  source = "github.com/jakebark/state"
   name   = "name"
 }
 ```
