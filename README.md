@@ -1,4 +1,4 @@
-S3 bucket and DDB table for managing terraform state.
+Amazon S3 bucket and DDB table for managing terraform state.
 
 ## Inputs
 
