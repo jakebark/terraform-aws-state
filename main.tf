@@ -15,11 +15,12 @@ resource "aws_s3_bucket_public_access_block" "this" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
-  bucket = aws_s3_bucket.this.id
+  bucket = aws_s3_bucket.this.bucket
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      kms_master_key_id = try(var.kms_key, null)
+      sse_algorithm     = can(var.kms_key) ? "aws:kms" : "AES256"
     }
   }
 }
@@ -77,6 +78,14 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
   }
 }
 
+resource "aws_s3_bucket_logging" "this" {
+  count  = var.access_logging_bucket == null ? 0 : 1
+  bucket = aws_s3_bucket.this.id
+
+  target_bucket = var.access_logging_bucket
+  target_prefix = "${var.name}/"
+}
+
 resource "aws_dynamodb_table" "this" {
   name           = var.name
   read_capacity  = 5
@@ -87,6 +96,7 @@ resource "aws_dynamodb_table" "this" {
     type = "S"
   }
   server_side_encryption {
-    enabled = true
+    enabled     = true
+    kms_key_arn = try(var.kms_key, null)
   }
 }
