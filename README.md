@@ -9,6 +9,16 @@ module "state" {
 }
 ```
 
+### Optional Inputs
+
+```hcl
+module "state" {
+  ...
+  kms_key               = aws_kms_key.this.arn
+  access_logging_bucket = aws_s3_bucket.this.id
+}
+```
+
 ## Outputs
 
 - `module.s3.bucket`
