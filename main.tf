@@ -63,18 +63,18 @@ resource "aws_s3_bucket_versioning" "this" {
 
 resource "aws_s3_bucket_lifecycle_configuration" "this" {
   depends_on = [aws_s3_bucket_versioning.this]
-
-  bucket = aws_s3_bucket.this.id
+  bucket     = aws_s3_bucket.this.id
 
   rule {
-    id = "retain-5-versions"
-
+    id     = "retain-5-versions"
+    status = "Enabled"
+    filter {
+      prefix = ""
+    }
     noncurrent_version_expiration {
       noncurrent_days           = 1
       newer_noncurrent_versions = 5
     }
-
-    status = "Enabled"
   }
 }
 
