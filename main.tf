@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "this" {
   lifecycle {
     prevent_destroy = true
   }
-  bucket = var.name
+  bucket = try(var.name, local.name)
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
