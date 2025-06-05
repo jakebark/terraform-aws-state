@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "this" {
   lifecycle {
     prevent_destroy = true
   }
-  bucket = var.name
+  bucket = try(var.name, local.name)
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
@@ -87,6 +87,7 @@ resource "aws_s3_bucket_logging" "this" {
 }
 
 resource "aws_dynamodb_table" "this" {
+  count          = var.ddb_table == true ? 1 : 0
   name           = var.name
   read_capacity  = 5
   write_capacity = 5
