@@ -15,6 +15,7 @@ module "state" {
 module "state" {
   ...
   name                  = "tf-state-${data.aws_caller_identity.current.account_id}"
+  ddb_table             = false
   kms_key               = aws_kms_key.this.arn
   access_logging_bucket = aws_s3_bucket.this.id
 }
