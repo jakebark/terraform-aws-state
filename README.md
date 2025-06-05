@@ -4,8 +4,8 @@ Amazon S3 bucket and DDB table for managing terraform state.
 
 ```hcl
 module "state" {
-  source = "github.com/jakebark/state"
-  name   = "name"
+  source  = "jakebark/state/aws"
+  version = "1.2.0"
 }
 ```
 
@@ -14,6 +14,7 @@ module "state" {
 ```hcl
 module "state" {
   ...
+  name                  = "tf-state-${data.aws_caller_identity.current.account_id}"
   kms_key               = aws_kms_key.this.arn
   access_logging_bucket = aws_s3_bucket.this.id
 }
