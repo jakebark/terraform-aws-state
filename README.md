@@ -24,4 +24,7 @@ module "state" {
 ## Outputs
 
 - `module.s3.bucket`
-- `module.s3.table` 
+
+## Related Resources
+
+- [jakebark/state/aws](https://registry.terraform.io/modules/jakebark/state/aws/latest)
