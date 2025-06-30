@@ -12,7 +12,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTerraformAwsState_Defaults(t *testing.T) {
+type testCase struct {
+	name                  string
+	vars                  map[string]interface{}
+	requiresKmsKey        bool
+	requiresAccessLogging bool
+	assertions            func(t *testing.T, opts *terraform.Options, awsRegion string)
+}
+
+func TestState(t *testing.T) {
 	t.Parallel()
 
 	awsRegion := "us-east-1"
@@ -32,8 +40,8 @@ func TestTerraformAwsState_Defaults(t *testing.T) {
 	defer terraform.Destroy(t, terraformOptions)
 	terraform.InitAndApply(t, terraformOptions)
 
-	s3BucketName := terraform.Output(t, terraformOptions, "bucket_name")
-	assertS3Bucket(t, awsRegion, s3BucketName, false, "")
+	actualBucketName := terraform.Output(t, terraformOptions, "bucket_name")
+	assertS3Bucket(t, awsRegion, actualBucketName, false, "")
 }
 
 func assertS3Bucket(t *testing.T, awsRegion, bucketName string, expectLogging bool, kmsKeyArn string) {
