@@ -1,11 +1,9 @@
-module terraform-aws-state/tests
+module tests
 
-go 1.23.0
-
-toolchain go1.24.2
+go 1.24.2
 
 require (
-	github.com/aws/aws-sdk-go v1.44.296
+	github.com/aws/aws-sdk-go v1.55.7
 	github.com/gruntwork-io/terratest v0.50.0
 	github.com/stretchr/testify v1.10.0
 )
