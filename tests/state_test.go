@@ -44,6 +44,15 @@ func TestTerraformAwsState(t *testing.T) {
 				assertS3Bucket(t, awsRegion, bucketName, kmsKeyArn, false)
 			},
 		},
+		{
+			name:                  "TestAccessLogging",
+			vars:                  map[string]interface{}{"ddb_table": false},
+			requiresAccessLogging: true,
+			assertions: func(t *testing.T, opts *terraform.Options, awsRegion string) {
+				bucketName := terraform.Output(t, opts, "bucket_name")
+				assertS3Bucket(t, awsRegion, bucketName, "", true)
+			},
+		},
 	}
 
 	for _, tc := range testCases {
