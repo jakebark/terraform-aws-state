@@ -1,7 +1,4 @@
 resource "aws_s3_bucket" "this" {
-  lifecycle {
-    prevent_destroy = true
-  }
   bucket = try(var.name, local.name)
 }
 
