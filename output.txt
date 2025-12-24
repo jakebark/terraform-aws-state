@@ -1,0 +1,122 @@
+diff --git a/.github/workflows/fmt.yml b/.github/workflows/fmt.yml
+new file mode 100644
+index 0000000..7608b0b
+--- /dev/null
++++ b/.github/workflows/fmt.yml
+@@ -0,0 +1,24 @@
++name: fmt
++
++on:
++  pull_request:
++    branches: [ main ]
++
++jobs: 
++  fmt: 
++    runs-on: ubuntu-latest
++
++    steps: 
++      - name: checkout code
++        uses: actions/checkout@v4
++
++      - name: setup terraform
++        uses: hashicorp/setup-terraform@v3
++        with:
++          terraform_version: ${{ vars.TERRAFORM_VERSION }} 
++
++      - name: terraform init
++        run: terraform init -backend=false
++
++      - name: terraform fmt check
++        run: terraform fmt --recursive --check
+diff --git a/.github/workflows/validate.yml b/.github/workflows/validate.yml
+new file mode 100644
+index 0000000..75647e4
+--- /dev/null
++++ b/.github/workflows/validate.yml
+@@ -0,0 +1,25 @@
++name: validate
++
++on:
++  pull_request:
++    branches: [ main ]
++
++jobs: 
++  validate: 
++    runs-on: ubuntu-latest
++
++    steps: 
++      - name: checkout code
++        uses: actions/checkout@v4
++
++      - name: setup terraform
++        uses: hashicorp/setup-terraform@v3
++        with:
++          terraform_version: ${{ vars.TERRAFORM_VERSION }} 
++
++      - name: terraform init
++        run: terraform init -backend=false
++
++      - name: terraform validate
++        run: terraform validate
++
+diff --git a/README.md b/README.md
+index ce8669b..04b9754 100644
+--- a/README.md
++++ b/README.md
+@@ -24,4 +24,7 @@ module "state" {
+ ## Outputs
+ 
+ - `module.s3.bucket`
+-- `module.s3.table` 
++
++## Related Resources
++
++- [jakebark/state/aws](https://registry.terraform.io/modules/jakebark/state/aws/latest)
+diff --git a/main.tf b/main.tf
+index 0281b36..0e6ffcd 100644
+--- a/main.tf
++++ b/main.tf
+@@ -1,7 +1,4 @@
+ resource "aws_s3_bucket" "this" {
+-  lifecycle {
+-    prevent_destroy = true
+-  }
+   bucket = try(var.name, local.name)
+ }
+ 
+diff --git a/variables.tf b/variables.tf
+index 7871f26..3d51359 100644
+--- a/variables.tf
++++ b/variables.tf
+@@ -1,19 +1,23 @@
+ variable "name" {
+-  type    = string
+-  default = null
++  description = "bucket name"
++  type        = string
++  default     = null
+ }
+ 
+ variable "kms_key" {
+-  type    = string
+-  default = null
++  description = "AWS KMS key arn"
++  type        = string
++  default     = null
+ }
+ 
+ variable "access_logging_bucket" {
+-  type    = string
+-  default = null
++  description = "s3 server access logging bucket name"
++  type        = string
++  default     = null
+ }
+ 
+ variable "ddb_table" {
+-  type    = bool
+-  default = false
++  description = "enable DynamoDB table"
++  type        = bool
++  default     = false
+ }

@@ -5,7 +5,7 @@ Amazon S3 bucket (and optional DDB table) for managing terraform state.
 ```hcl
 module "state" {
   source  = "jakebark/state/aws"
-  version = "1.2.0"
+  version = "1.2.1"
 }
 ```
 
@@ -23,7 +23,7 @@ module "state" {
 
 ## Outputs
 
-- `module.s3.bucket`
+- `module.state.bucket`
 
 ## Related Resources
 
