@@ -1,15 +1,3 @@
-variable "name" {
-  description = "bucket name"
-  type        = string
-  default     = null
-}
-
-variable "kms_key" {
-  description = "AWS KMS key arn"
-  type        = string
-  default     = null
-}
-
 variable "access_logging_bucket" {
   description = "s3 server access logging bucket name"
   type        = string
@@ -27,3 +15,16 @@ variable "ddb_table" {
   type        = bool
   default     = false
 }
+
+variable "kms_key" {
+  description = "AWS KMS key arn"
+  type        = string
+  default     = null
+}
+
+variable "name" {
+  description = "bucket name"
+  type        = string
+  default     = null
+}
+
