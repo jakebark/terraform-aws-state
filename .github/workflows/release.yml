@@ -28,6 +28,6 @@ jobs:
           node-version: "lts/*"
 
       - name: Release
-        run: npx semantic-release@25
+        run: npx --package semantic-release@25 --package @semantic-release/changelog --package @semantic-release/git semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
